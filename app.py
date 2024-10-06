@@ -1,7 +1,10 @@
 import pickle
+import boto3
 import streamlit as st
 import requests
 import time
+import os
+from dotenv import load_dotenv
 
 @st.cache_data
 def fetch_poster(anime_id):
@@ -45,6 +48,26 @@ def get_top_anime():
         st.error("Failed to fetch top anime: " + response.reason)
         return[]
 
+#access file within aws s3
+load_dotenv()
+aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
+aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+
+s3 = boto3.client(
+    's3',
+    aws_access_key_id = aws_access_key_id,
+    aws_secret_access_key = aws_secret_access_key
+)
+
+bucket_name = 'anirec'
+file_key = 'models/similarity.pkl'
+
+try:
+    s3.download_file(bucket_name, file_key, 'similarity.pkl')
+except Exception as e:
+    st.error(f"Failed to download the file from S3: {e}")
+
+#working in streamlit
 st.header("**Anime Recommendation**")
 animes = pickle.load(open('models/anime_list.pkl', 'rb'))
 similarity = pickle.load(open('models/similarity.pkl', 'rb'))
