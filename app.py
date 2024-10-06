@@ -72,7 +72,7 @@ def recommend(anime):
     recommended_anime_description =[]
     recommended_anime_genre =[]
 
-    for i in distances[1:30]:
+    for i in distances[1:100]:
         anime_id = animes.iloc[i[0]].anime_id     
         description, genre, poster = fetch_poster(anime_id)
 
