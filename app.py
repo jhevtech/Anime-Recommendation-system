@@ -6,6 +6,7 @@ import time
 import os
 from dotenv import load_dotenv
 
+
 @st.cache_data
 def fetch_poster(anime_id):
     url = f"https://api.jikan.moe/v4/anime/{anime_id}"
@@ -18,6 +19,7 @@ def fetch_poster(anime_id):
             genre_path = [genre['name'] for genre in data['data']['genres']]
             poster_path = data['data']['images']['jpg']['image_url']
             return description_path, genre_path, poster_path
+#experienced rate limitations so included time function to wait and try again
         elif response.status_code == 429:
             st.warning("Rate limit reached. Retrying in 30 seconds.")
             time.sleep(30)
@@ -28,6 +30,7 @@ def fetch_poster(anime_id):
     st.error("Failed to fetch poster after multiple attempts.")
     return None, None, None
 
+#api to retrieve top anime trending anime
 @st.cache_data
 def get_top_anime():
     url = "https://api.jikan.moe/v4/top/anime"
@@ -58,10 +61,11 @@ s3 = boto3.client(
     aws_access_key_id = aws_access_key_id,
     aws_secret_access_key = aws_secret_access_key
 )
-
+#accessing the bucket where the file is located
 bucket_name = 'anirec'
 file_key = 'models/similarity.pkl'
 
+#exception handling for the download file from aws to handle any exceptions that might happen
 try:
     s3.download_file(bucket_name, file_key, 'similarity.pkl')
 except Exception as e:
@@ -70,7 +74,7 @@ except Exception as e:
 #working in streamlit
 st.header("**Anime Recommendation**")
 animes = pickle.load(open('models/anime_list.pkl', 'rb'))
-similarity = pickle.load(open('models/similarity.pkl', 'rb'))
+similarity = pickle.load(open('similarity.pkl', 'rb'))
 
 
 top_anime = get_top_anime()
