@@ -63,7 +63,7 @@ s3 = boto3.client(
 )
 #accessing the bucket where the file is located
 bucket_name = 'anirec'
-file_key = 'models/similarity.pkl'
+file_key = 'similarity.pkl'
 
 #exception handling for the download file from aws to handle any exceptions that might happen
 try:
