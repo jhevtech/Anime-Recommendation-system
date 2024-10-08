@@ -55,7 +55,7 @@ def get_top_anime():
 #working in streamlit
 st.header("**Anime Recommendation**")
 animes = pickle.load(open('models/anime_list.pkl', 'rb'))
-similarity = pickle.load(open('models/similarity.pkl', 'rb'))
+#similarity = pickle.load(open('models/similarity.pkl', 'rb'))
 
 #downloading similarity from google drive since file is too large for github and heroku
 if not os.path.exists('similarity.pkl'):
