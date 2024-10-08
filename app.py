@@ -2,7 +2,7 @@ import pickle
 import streamlit as st
 import requests
 import time
-import gdown
+import numpy as np
 import os
 
 
@@ -51,20 +51,35 @@ def get_top_anime():
         return[]
 
 
+def load_similarity_files(folder_path):
+    if not os.path.exists(folder_path):
+        st.error(f"Folder '{folder_path}' not found!")
+        return None
+        
+    file_names = sorted(os.listdir(folder_path))
+    # Combining the smaller files into a single similarity matrix
+    similarity_matrices = []
+    
+    for file_name in file_names:
+        if file_name.endswith('.pkl'):  
+            file_path = os.path.join(folder_path, file_name)
+            with open(file_path, 'rb') as file:
+                similarity_matrices.append(pickle.load(file))
+    
+    # Stack the matrices to create a full similarity matrix
+    similarity = np.vstack(similarity_matrices)
+    return similarity
+
+folder_path = 'models/similarity_parts' 
+similarity = load_similarity_files(folder_path)
+
 
 #working in streamlit
 st.header("**Anime Recommendation**")
 animes = pickle.load(open('models/anime_list.pkl', 'rb'))
 #similarity = pickle.load(open('models/similarity.pkl', 'rb'))
 
-#downloading similarity from google drive since file is too large for github and heroku
-if not os.path.exists('similarity.pkl'):
-    url = 'https://drive.google.com/uc?id=10vs_SDQsRQ0_xxHB8Jppo53TToiV_zbY'
-    output = 'similarity.pkl'
-    st.info("Fetching file from google drive... This may take few seconds.")
-    gdown.download(url, output, quiet=False)
 
-similarity = pickle.load(open('similarity.pkl', 'rb'))
 
 top_anime = get_top_anime()
 
@@ -83,12 +98,15 @@ for col, anime in zip(cols, top_anime):
 def recommend(anime):
     index = animes[animes['Name'] == anime].index[0]
     distances = sorted(list(enumerate(similarity[index])), reverse=True , key= lambda x: x[1])
+    
+    top_recommendations = distances[1:5]
+
     recommended_anime_name =[]
     recommended_anime_poster = []
     recommended_anime_description =[]
     recommended_anime_genre =[]
 
-    for i in distances[1:100]:
+    for i in top_recommendations:
         anime_id = animes.iloc[i[0]].anime_id     
         description, genre, poster = fetch_poster(anime_id)
 
@@ -97,11 +115,8 @@ def recommend(anime):
             recommended_anime_name.append(animes.iloc[i[0]].Name)
             recommended_anime_description.append(description if description else "No description available.")
             recommended_anime_genre.append(", ".join(genre) if genre else "No genres available.")
-            
+        #using time to adhere to api rate limit
         time.sleep(1)
-        if len(recommended_anime_poster) >= 4:
-            break
-        
     return recommended_anime_name, recommended_anime_poster, recommended_anime_description, recommended_anime_genre
 
 
