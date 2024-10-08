@@ -1,10 +1,9 @@
 import pickle
-import boto3
+
 import streamlit as st
 import requests
 import time
 import os
-from dotenv import load_dotenv
 
 
 @st.cache_data
