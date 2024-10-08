@@ -1,8 +1,8 @@
 import pickle
-
 import streamlit as st
 import requests
 import time
+import gdown
 import os
 
 
@@ -57,6 +57,14 @@ st.header("**Anime Recommendation**")
 animes = pickle.load(open('models/anime_list.pkl', 'rb'))
 similarity = pickle.load(open('models/similarity.pkl', 'rb'))
 
+#downloading similarity from google drive since file is too large for github and heroku
+if not os.path.exists('similarity.pkl'):
+    url = 'https://drive.google.com/uc?id=10vs_SDQsRQ0_xxHB8Jppo53TToiV_zbY'
+    output = 'similarity.pkl'
+    st.info("Fetching file from google drive... This may take few seconds.")
+    gdown.download(url, output, quiet=False)
+
+similarity = pickle.load(open('similarity.pkl', 'rb'))
 
 top_anime = get_top_anime()
 
