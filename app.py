@@ -80,7 +80,6 @@ animes = pickle.load(open('models/anime_list.pkl', 'rb'))
 #similarity = pickle.load(open('models/similarity.pkl', 'rb'))
 
 
-
 top_anime = get_top_anime()
 
 # display top animes
