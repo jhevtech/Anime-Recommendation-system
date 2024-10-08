@@ -66,10 +66,22 @@ bucket_name = 'anirec'
 file_key = 'similarity.pkl'
 
 #exception handling for the download file from aws to handle any exceptions that might happen
+# Generate a presigned URL for the file
 try:
-    s3.download_file(bucket_name, file_key, 'similarity.pkl')
+    presigned_url = s3.generate_presigned_url('get_object',
+                                            Params={'Bucket': bucket_name, 'Key': file_key},
+                                            ExpiresIn=3600)  # 1 hour expiration
+    
+    response = requests.get(presigned_url)
+    
+    if response.status_code == 200:
+        with open('similarity.pkl', 'wb') as f:
+            f.write(response.content)
+    else:
+        st.error(f"Failed to download the file via presigned URL: {response.reason}")
 except Exception as e:
-    st.error(f"Failed to download the file from S3: {e}")
+    st.error(f"Error creating presigned URL: {e}")
+
 
 #working in streamlit
 st.header("**Anime Recommendation**")
