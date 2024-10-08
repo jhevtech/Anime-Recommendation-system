@@ -51,42 +51,12 @@ def get_top_anime():
         st.error("Failed to fetch top anime: " + response.reason)
         return[]
 
-#access file within aws s3
-load_dotenv()
-aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
-aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
-
-s3 = boto3.client(
-    's3',
-    aws_access_key_id = aws_access_key_id,
-    aws_secret_access_key = aws_secret_access_key
-)
-#accessing the bucket where the file is located
-bucket_name = 'anirec'
-file_key = 'similarity.pkl'
-
-#exception handling for the download file from aws to handle any exceptions that might happen
-# Generate a presigned URL for the file
-try:
-    presigned_url = s3.generate_presigned_url('get_object',
-                                            Params={'Bucket': bucket_name, 'Key': file_key},
-                                            ExpiresIn=3600)  # 1 hour expiration
-    
-    response = requests.get(presigned_url)
-    
-    if response.status_code == 200:
-        with open('similarity.pkl', 'wb') as f:
-            f.write(response.content)
-    else:
-        st.error(f"Failed to download the file via presigned URL: {response.reason}")
-except Exception as e:
-    st.error(f"Error creating presigned URL: {e}")
 
 
 #working in streamlit
 st.header("**Anime Recommendation**")
 animes = pickle.load(open('models/anime_list.pkl', 'rb'))
-similarity = pickle.load(open('similarity.pkl', 'rb'))
+similarity = pickle.load(open('models/similarity.pkl', 'rb'))
 
 
 top_anime = get_top_anime()
