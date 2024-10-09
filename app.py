@@ -51,33 +51,12 @@ def get_top_anime():
         return[]
 
 
-def load_similarity_files(folder_path):
-    if not os.path.exists(folder_path):
-        st.error(f"Folder '{folder_path}' not found!")
-        return None
-        
-    file_names = sorted(os.listdir(folder_path))
-    # Combining the smaller files into a single similarity matrix
-    similarity_matrices = []
-    
-    for file_name in file_names:
-        if file_name.endswith('.pkl'):  
-            file_path = os.path.join(folder_path, file_name)
-            with open(file_path, 'rb') as file:
-                similarity_matrices.append(pickle.load(file))
-    
-    # Stack the matrices to create a full similarity matrix
-    similarity = np.vstack(similarity_matrices)
-    return similarity
-
-folder_path = 'models/similarity_parts' 
-similarity = load_similarity_files(folder_path)
 
 
 #working in streamlit
 st.header("**Anime Recommendation**")
 animes = pickle.load(open('models/anime_list.pkl', 'rb'))
-#similarity = pickle.load(open('models/similarity.pkl', 'rb'))
+similarity = pickle.load(open('models/similarity.pkl', 'rb'))
 
 
 top_anime = get_top_anime()
