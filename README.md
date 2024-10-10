@@ -1,6 +1,6 @@
 # Anime Recommendation System
 
-This project is an Anime Recommendation System built using **Jupyter Notebook**, **Python**, and **scikit-learn** for the recommendation model. The system uses **content-based filtering** with **cosine similarity** to suggest anime based on user-selected preferences. It provides a simple UI using **Streamlit**, integrates an API to fetch and display currently popular anime titles, and is deployed on **Heroku**.
+This project is an Anime Recommendation System built using **Jupyter Notebook**, **Python**, and **scikit-learn** for the recommendation model. The system uses **content-based filtering** with **cosine similarity** to suggest anime based on user-selected preferences. It provides a simple UI using **Streamlit**, integrates an API to fetch and display currently popular anime titles.
 
 ## Features
 
@@ -19,7 +19,6 @@ This project is an Anime Recommendation System built using **Jupyter Notebook**,
   - [numpy](https://numpy.org/): For numerical operations.
   - [Streamlit](https://streamlit.io/): Framework for building the web app interface.
   - [Requests](https://docs.python-requests.org/en/master/): For making API calls.
-- **Deployment**: Heroku and AWS S3
 
 ## Installation
 
@@ -59,7 +58,7 @@ Once the app is running, the UI will allow users to:
 1. **Content-Based Filtering**: The recommendation engine uses cosine similarity to match user-selected anime with similar tags.
 2. **Model Creation**: The content-based filtering system is built using pandas, numpy, and scikit-learn.
 3. **API Integration**: The app fetches the most popular anime titles using an API, updating the list in real-time.
-5. **Deployment**: The app is deployed on Heroku for easy access. You can view the live app [here](https://your-app-name.herokuapp.com).
+5. **Deployment**: You can view the live app [here](https://your-app-name.herokuapp.com).
 
 ## Project Structure
 
