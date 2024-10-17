@@ -68,7 +68,7 @@ Once the app is running, the UI will allow users to:
 
 ![Main page](https://github.com/jhevtech/Anime-Recommendation-system/blob/main/images/animerecmain%20page.png)
 
-![Result page](
+![Result page](https://github.com/jhevtech/Anime-Recommendation-system/blob/main/images/anime%20result.png)
 
 ## Future Enhancements
 
