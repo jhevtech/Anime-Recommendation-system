@@ -58,7 +58,6 @@ Once the app is running, the UI will allow users to:
 1. **Content-Based Filtering**: The recommendation engine uses cosine similarity to match user-selected anime with similar tags.
 2. **Model Creation**: The content-based filtering system is built using pandas, numpy, and scikit-learn.
 3. **API Integration**: The app fetches the most popular anime titles using an API, updating the list in real-time.
-5. **Deployment**: You can view the live app [here](https://your-app-name.herokuapp.com).
 
 ## Project Structure
 
@@ -66,6 +65,10 @@ Once the app is running, the UI will allow users to:
 - `app.py`: Streamlit app for running the UI.
 - `model/`: Contains the saved model and data for recommendations.
 - `requirements.txt`: List of dependencies needed to run the project.
+
+![Main page](https://github.com/jhevtech/Anime-Recommendation-system/blob/main/images/animerecmain%20page.png)
+
+![Result page](
 
 ## Future Enhancements
 
