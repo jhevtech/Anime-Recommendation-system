@@ -66,6 +66,7 @@ Once the app is running, the UI will allow users to:
 - `model/`: Contains the saved model and data for recommendations.
 - `requirements.txt`: List of dependencies needed to run the project.
 
+## Sample Screenshot
 ![Main page](https://github.com/jhevtech/Anime-Recommendation-system/blob/main/images/animerecmain%20page.png)
 
 ![Result page](https://github.com/jhevtech/Anime-Recommendation-system/blob/main/images/anime%20result.png)
